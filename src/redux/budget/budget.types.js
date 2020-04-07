@@ -1,0 +1,8 @@
+const BudgetActionTypes = {
+	ADD_ICOME: 'ADD_INCOME',
+	ADD_EXPENSE: 'ADD_EXPENSE',
+	DELETE_ENTRY: 'DELETE_ENTRY',
+	UPDATE_ENTRY_VALUE: 'UPDATE_ENTRY_VALUE'
+}
+
+export default BudgetActionTypes

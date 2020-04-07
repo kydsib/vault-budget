@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import uniqid from 'uniqid'
 
 import BudgetCategories from '../budget-categories/budget-categories'
@@ -20,10 +20,18 @@ const BudgetInput = () => {
 		e.preventDefault()
 		const { value, name } = e.target
 
+		const currentDate = new Date()
+		const formatedDate = `
+			${currentDate.getFullYear()} - 
+			${currentDate.getMonth() + 1} -
+			${currentDate.getDate()}
+			`
+
 		setInputValues({
 			...inputValues,
 			[name]: value,
-			id: uniqid()
+			id: uniqid(),
+			time: formatedDate
 		})
 	}
 
