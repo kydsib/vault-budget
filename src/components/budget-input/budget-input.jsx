@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import uniqid from 'uniqid'
 
 import BudgetCategories from '../budget-categories/budget-categories'
 import CustomButton from '../custom-button/custom-button'
 import CustomInput from '../custom-input/custom-input'
+
+import { addIncome, addExpense } from '../../redux/budget/budget.actions'
 
 import './budget-input.scss'
 
@@ -21,11 +24,8 @@ const BudgetInput = () => {
 		const { value, name } = e.target
 
 		const currentDate = new Date()
-		const formatedDate = `
-			${currentDate.getFullYear()} - 
-			${currentDate.getMonth() + 1} -
-			${currentDate.getDate()}
-			`
+		const formatedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() +
+			1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`
 
 		setInputValues({
 			...inputValues,
@@ -44,9 +44,12 @@ const BudgetInput = () => {
 			category: 'food',
 			description: '',
 			amount: '',
-			timeSpent: ''
+			timeSpent: '',
+			time: ''
 		})
 	}
+
+	const dispatch = useDispatch()
 
 	return (
 		<form className="input-container" onSubmit={handleSubmit}>
@@ -70,6 +73,7 @@ const BudgetInput = () => {
 				type="text"
 				placeholder="Amount in €"
 				name="amount"
+				requidred
 				className="input-item"
 			/>
 			{inputValues.category === 'income' ? (
@@ -83,7 +87,16 @@ const BudgetInput = () => {
 				/>
 			) : null}
 
-			<CustomButton value="Submit" type="submit" />
+			<CustomButton
+				onClick={() => {
+					inputValues.category !== 'income'
+						? dispatch(addExpense(inputValues))
+						: dispatch(addIncome(inputValues))
+				}}
+				type="submit"
+			>
+				Submit
+			</CustomButton>
 		</form>
 	)
 }

@@ -1,9 +1,9 @@
 import React from 'react'
-import Layout from './components/layout/layout'
+import BudgetPage from './pages/budget/budget-page'
 import './App.scss'
 
 function App() {
-	return <Layout />
+	return <BudgetPage />
 }
 
 export default App

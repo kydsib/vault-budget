@@ -2,10 +2,10 @@ import React from 'react'
 
 import './custom-button.styles.scss'
 
-const CustomButton = ({ value, onClick, type }) => {
+const CustomButton = ({ children, ...otherProps }) => {
 	return (
-		<button onClick={onClick} className="btn" type={type}>
-			{value}
+		<button className="btn" {...otherProps}>
+			{children}
 		</button>
 	)
 }

@@ -19,6 +19,7 @@ const BudgetCategories = ({ handleChange, name, value }) => {
 				<option value="entertainment">Entertainment</option>
 				<option value="bills">Bills</option>
 				<option value="loans">Loans</option>
+				<option value="savings">Savings</option>
 				<option value="other">Other</option>
 				{/* later add ability to add permament option? */}
 			</select>
