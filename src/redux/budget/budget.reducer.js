@@ -1,6 +1,8 @@
 import BudgetActionTypes from './budget.types'
 
 const INITIAL_STATE = {
+	// should I put exp and inc under  one entry?
+	//https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape#relationships-and-tables
 	expenses: {
 		byId: {},
 		allIds: []
