@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 
 import {
 	selectIncome,
-	selectExpenses
+	selectExpenses,
+	getExpensesInHoursWorked
 } from '../../redux/budget/budget.selector'
 
 import SingleItem from '../single-item/single-itmem'
@@ -11,12 +12,18 @@ import SingleItem from '../single-item/single-itmem'
 const IncomeAndExpenseLog = () => {
 	// taking values from expenses.byId, renaming byId to expId
 	const { byId: expId } = useSelector(state => selectExpenses(state))
+	// console.table(expId)
 	const { byId: incId } = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
+	// console.log(combinedData)
 	// making array of final values
-	const finalDtata = Object.values(combinedData)
+	// console.table(combinedData)
 
+	const finalDtata = Object.values(combinedData)
+	// console.table(finalDtata)
+	// console.table(finalDtata)
+	console.table(finalDtata)
 	return (
 		<div className="log-container">
 			<ul className="log-container__header"></ul>
