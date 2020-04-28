@@ -3,31 +3,30 @@ import { useSelector } from 'react-redux'
 
 import {
 	selectIncome,
-	selectExpenses,
-	getExpensesInHoursWorked
+	selectExpenses
 } from '../../redux/budget/budget.selector'
+import TableHeader from '../incExp-table-header/incExp-table-header'
 
 import SingleItem from '../single-item/single-itmem'
+import DailyBudgetTableHeader from '../inc-exp-tableHead/daily-budget-table-header'
+
+import './inc-exp-log.scss'
 
 const IncomeAndExpenseLog = () => {
 	// taking values from expenses.byId, renaming byId to expId
 	const { byId: expId } = useSelector(state => selectExpenses(state))
-	// console.table(expId)
+
 	const { byId: incId } = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
-	// console.log(combinedData)
-	// making array of final values
-	// console.table(combinedData)
 
 	const finalDtata = Object.values(combinedData)
-	// console.table(finalDtata)
-	// console.table(finalDtata)
-	console.table(finalDtata)
+
 	return (
-		<div className="log-container">
-			<ul className="log-container__header"></ul>
-			<div className="data-log">
+		<table className="output-table">
+			<TableHeader />
+			<DailyBudgetTableHeader />
+			<tbody className="data-log">
 				{finalDtata.map(item => (
 					<SingleItem
 						key={item.id}
@@ -38,8 +37,8 @@ const IncomeAndExpenseLog = () => {
 						timeSpent={item.timeSpent}
 					/>
 				))}
-			</div>
-		</div>
+			</tbody>
+		</table>
 	)
 }
 

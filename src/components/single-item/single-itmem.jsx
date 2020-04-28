@@ -4,17 +4,14 @@ import './single-item.styles.scss'
 
 const SingleItem = ({ id, category, description, amount, timeSpent }) => {
 	return (
-		<div
-			key={id}
-			className={`item-container ${
-				category === 'income' ? 'green' : 'red'
-			}`}
-		>
-			<span>{category}</span>
-			<span>{description}</span>
-			<span>{amount}</span>
-			<span>{timeSpent}</span>
-		</div>
+		<tr key={id}>
+			<td className="item">{category}</td>
+			<td className="item">{description}</td>
+
+			<td className={`item ${category === 'income' ? 'green' : 'red'}`}>
+				&euro;{amount} / {timeSpent}h
+			</td>
+		</tr>
 	)
 }
 

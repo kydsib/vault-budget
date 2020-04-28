@@ -1,0 +1,14 @@
+.output-table {
+	width: 100%;
+	padding: 15px 30px;
+}
+
+tbody:hover > tr td {
+	opacity: 0.5;
+}
+
+tbody:hover > tr:hover td {
+	text-shadow: none;
+	color: #2d2d2d;
+	opacity: 1;
+}
