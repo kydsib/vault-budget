@@ -24,14 +24,15 @@ const BudgetInput = () => {
 		const { value, name } = e.target
 
 		const currentDate = new Date()
-		const formatedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() +
-			1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`
+			.toISOString()
+			.substr(0, 19)
+			.replace('T', ' ')
 
 		setInputValues({
 			...inputValues,
 			[name]: value,
 			id: uniqid(),
-			time: formatedDate
+			time: currentDate
 		})
 	}
 
@@ -75,6 +76,7 @@ const BudgetInput = () => {
 				name="amount"
 				requidred
 				className="input-item"
+				requidred="required"
 			/>
 			{inputValues.category === 'income' ? (
 				<CustomInput
@@ -84,6 +86,7 @@ const BudgetInput = () => {
 					placeholder="Hours spent"
 					name="timeSpent"
 					className="input-item"
+					requidred="required"
 				/>
 			) : null}
 

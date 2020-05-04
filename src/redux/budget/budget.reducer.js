@@ -2,12 +2,70 @@ import BudgetActionTypes from './budget.types'
 
 const INITIAL_STATE = {
 	expenses: {
-		byId: {},
-		allIds: []
+		byId: {
+			k948zpnp: {
+				id: 'k948zpnp',
+				category: 'other',
+				description: 'book',
+				amount: '25',
+				timeSpent: '2.5',
+				time: '2020-04-21'
+			},
+			z9e8ipnp: {
+				id: 'z9e8ipnp',
+				category: 'food',
+				description: 'pasta',
+				amount: '12',
+				timeSpent: '1.2',
+				time: '2020-04-21'
+			},
+			k948zcvc: {
+				id: 'k948zcvc',
+				category: 'other',
+				description: 'book',
+				amount: '25',
+				timeSpent: '2.5',
+				time: '2020-04-11'
+			},
+			k948zp32: {
+				id: 'k948zp32',
+				category: 'other',
+				description: 'book',
+				amount: '25',
+				timeSpent: '2.5',
+				time: '2020-04-11'
+			}
+		},
+		allIds: ['k948zpnp', 'z9e8ipnp', 'k948zcvc', 'k948zp32']
 	},
 	income: {
-		byId: {},
-		allIds: []
+		byId: {
+			k948lid3: {
+				id: 'k948lid3',
+				category: 'income',
+				description: 'book',
+				amount: '225',
+				timeSpent: '15',
+				time: '2020-04-20'
+			},
+			k948ze5h: {
+				id: 'k948ze5h',
+				category: 'income',
+				description: 'lala',
+				amount: '75',
+				timeSpent: '5',
+				time: '2020-04-11'
+			},
+			k94wd332: {
+				id: 'k94wd332',
+				category: 'income',
+				description: 'book',
+				amount: '250',
+				timeSpent: '12.5',
+				time: '2020-04-11'
+			}
+		},
+		allIds: ['k948lid3', 'k948ze5h', 'k94wd332']
 	},
 	monthlyExpenses: 0,
 	monthlyBudget: 1000,

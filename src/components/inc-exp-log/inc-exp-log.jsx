@@ -9,6 +9,7 @@ import TableHeader from '../incExp-table-header/incExp-table-header'
 
 import SingleItem from '../single-item/single-itmem'
 import DailyBudgetTableHeader from '../inc-exp-tableHead/daily-budget-table-header'
+import DailyBudget from '../daily-budget/daily-budget'
 
 import './inc-exp-log.scss'
 
@@ -19,24 +20,35 @@ const IncomeAndExpenseLog = () => {
 	const { byId: incId } = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
+	// console.log(combinedData)
 
 	const finalDtata = Object.values(combinedData)
+
+	// let datesByDay = [{date : [{id...}, {id...}, {id...}]}, {otherDate: [{id..}, {id..}]}]
+	function doTheFiltering(objectArray, property) {
+		return objectArray.reduce(function(acc, obj) {
+			let key = obj[property].substring(0, 10)
+			if (!acc[key]) {
+				acc[key] = []
+			}
+			acc[key].push(obj)
+			return acc
+		}, {})
+	}
+
+	let budgetByday = doTheFiltering(finalDtata, 'time')
 
 	return (
 		<table className="output-table">
 			<TableHeader />
 			<DailyBudgetTableHeader />
 			<tbody className="data-log">
-				{finalDtata.map(item => (
-					<SingleItem
-						key={item.id}
-						id={item.id}
-						category={item.category}
-						description={item.description}
-						amount={item.amount}
-						timeSpent={item.timeSpent}
-					/>
-				))}
+				{Object.entries(budgetByday).map(([date, items], key) => [
+					<DailyBudget date={date} key={key} />,
+					...items.map(({ id, ...rest }) => (
+						<SingleItem key={id} {...rest} />
+					))
+				])}
 			</tbody>
 		</table>
 	)

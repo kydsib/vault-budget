@@ -8,7 +8,8 @@ const CustomInput = ({
 	name,
 	placeholder,
 	handleChange,
-	value
+	value,
+	requidred
 }) => {
 	return (
 		<input
@@ -18,6 +19,7 @@ const CustomInput = ({
 			type={type}
 			name={name}
 			value={value}
+			requidred={requidred}
 		/>
 	)
 }
