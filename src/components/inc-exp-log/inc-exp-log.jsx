@@ -20,11 +20,10 @@ const IncomeAndExpenseLog = () => {
 	const { byId: incId } = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
-	// console.log(combinedData)
 
 	const finalDtata = Object.values(combinedData)
 
-	// let datesByDay = [{date : [{id...}, {id...}, {id...}]}, {otherDate: [{id..}, {id..}]}]
+	// grouping values by date {date: [{values}], date2: [{values}]}
 	function doTheFiltering(objectArray, property) {
 		return objectArray.reduce(function(acc, obj) {
 			let key = obj[property].substring(0, 10)
@@ -37,13 +36,20 @@ const IncomeAndExpenseLog = () => {
 	}
 
 	let budgetByday = doTheFiltering(finalDtata, 'time')
+	// Sorting by date
+	let sortedByDay = {}
+	Object.keys(budgetByday)
+		.sort()
+		.forEach(key => {
+			sortedByDay[key] = budgetByday[key]
+		})
 
 	return (
 		<table className="output-table">
 			<TableHeader />
 			<DailyBudgetTableHeader />
 			<tbody className="data-log">
-				{Object.entries(budgetByday).map(([date, items], key) => [
+				{Object.entries(sortedByDay).map(([date, items], key) => [
 					<DailyBudget date={date} key={key} />,
 					...items.map(({ id, ...rest }) => (
 						<SingleItem key={id} {...rest} />

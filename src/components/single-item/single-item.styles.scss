@@ -9,11 +9,20 @@ tr {
 .item {
 	padding: 5px 20px;
 
-	&.red {
-		color: red;
+	&--last {
+		display: flex;
+		justify-content: space-between;
 	}
+}
 
-	&.green {
-		color: green;
-	}
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.margin {
+	margin-right: 15px;
 }

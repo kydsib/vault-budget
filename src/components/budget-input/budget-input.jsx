@@ -71,10 +71,9 @@ const BudgetInput = () => {
 			<CustomInput
 				handleChange={handleChange}
 				value={inputValues.amount}
-				type="text"
+				type="number"
 				placeholder="Amount in €"
 				name="amount"
-				requidred
 				className="input-item"
 				requidred="required"
 			/>
@@ -86,7 +85,7 @@ const BudgetInput = () => {
 					placeholder="Hours spent"
 					name="timeSpent"
 					className="input-item"
-					requidred="required"
+					required
 				/>
 			) : null}
 
