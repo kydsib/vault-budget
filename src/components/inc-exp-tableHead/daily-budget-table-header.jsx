@@ -8,7 +8,7 @@ const DailyBudgetTableHeader = () => {
 			<tr className="header">
 				<td className="header__item">Category</td>
 				<td className="header__item description">Description</td>
-				<td className="header__item">Amount / Time</td>
+				<td className="header__item">Amount / Cost in work hours</td>
 			</tr>
 		</thead>
 	)

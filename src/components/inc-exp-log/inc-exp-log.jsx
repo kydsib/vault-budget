@@ -22,6 +22,7 @@ const IncomeAndExpenseLog = () => {
 	const combinedData = { ...expId, ...incId }
 
 	const finalDtata = Object.values(combinedData)
+	console.log(finalDtata)
 
 	// grouping values by date {date: [{values}], date2: [{values}]}
 	function doTheFiltering(objectArray, property) {

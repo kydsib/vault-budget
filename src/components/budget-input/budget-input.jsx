@@ -49,7 +49,16 @@ const BudgetInput = () => {
 			time: ''
 		})
 	}
+	const { amount, timeSpent } = inputValues
 
+	//Disable submit if not all values are entered
+	let isEnabled
+
+	if (inputValues.category !== 'income') {
+		isEnabled = amount.length > 0
+	} else if (inputValues.category === 'income') {
+		isEnabled = amount.length > 0 && timeSpent.length > 0
+	}
 	const dispatch = useDispatch()
 
 	return (
@@ -90,6 +99,7 @@ const BudgetInput = () => {
 			) : null}
 
 			<CustomButton
+				disabled={!isEnabled}
 				onClick={() => {
 					inputValues.category !== 'income'
 						? dispatch(addExpense(inputValues))
