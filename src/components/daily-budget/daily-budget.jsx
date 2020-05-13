@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './daily-budget.scyles.scss'
+
 const DailyBudget = ({ date }) => {
 	return (
 		<tr className="container-for-day">

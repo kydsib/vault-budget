@@ -18,7 +18,9 @@ const TableHeader = () => {
 			<tr>
 				<th className="value green">{income}</th>
 				<th className="value red">{expenses}</th>
-				<th>{totalBudget}</th>
+				<th className={`value ${totalBudget > 0 ? 'green' : 'red'} `}>
+					{totalBudget}
+				</th>
 			</tr>
 		</thead>
 	)

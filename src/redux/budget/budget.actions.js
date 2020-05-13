@@ -9,3 +9,13 @@ export const addExpense = entry => ({
 	type: BudgetActionTypes.ADD_EXPENSE,
 	payload: entry
 })
+
+export const deleteIncome = id => ({
+	type: BudgetActionTypes.DELETE_INCOME,
+	payload: id
+})
+
+export const deleteExpense = id => ({
+	type: BudgetActionTypes.DELETE_EXPENSE,
+	payload: id
+})

@@ -170,6 +170,44 @@ const budgetReducer = (state = INITIAL_STATE, action) => {
 				monthlyExpenses: newExpenses,
 				monthlyBudget: newTotalBudget
 			}
+		case BudgetActionTypes.DELETE_EXPENSE:
+			const expenseToDelete = action.payload
+			const newState = { ...state.expenses.byId }
+			delete newState[expenseToDelete]
+
+			const newIds = state.expenses.allIds.filter(
+				item => item !== expenseToDelete
+			)
+
+			return {
+				...state,
+				expenses: {
+					...state.expenses,
+					byId: {
+						...newState
+					},
+					allIds: newIds
+				}
+			}
+		case BudgetActionTypes.DELETE_INCOME:
+			const incomeToDelete = action.payload
+			const newIncomeState = { ...state.income.byId }
+			delete newIncomeState[incomeToDelete]
+
+			const newAllIds = state.income.allIds.filter(
+				item => item !== incomeToDelete
+			)
+
+			return {
+				...state,
+				income: {
+					...state.income,
+					byId: {
+						...newIncomeState
+					},
+					allIds: newAllIds
+				}
+			}
 		default:
 			return state
 	}

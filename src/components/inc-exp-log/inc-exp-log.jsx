@@ -7,7 +7,7 @@ import {
 } from '../../redux/budget/budget.selector'
 import TableHeader from '../incExp-table-header/incExp-table-header'
 
-import SingleItem from '../single-item/single-itmem'
+import SingleItem from '../single-item/single-item'
 import DailyBudgetTableHeader from '../inc-exp-tableHead/daily-budget-table-header'
 import DailyBudget from '../daily-budget/daily-budget'
 
@@ -53,7 +53,7 @@ const IncomeAndExpenseLog = () => {
 				{Object.entries(sortedByDay).map(([date, items], key) => [
 					<DailyBudget date={date} key={key} />,
 					...items.map(({ id, ...rest }) => (
-						<SingleItem key={id} {...rest} />
+						<SingleItem key={id} idData={id} {...rest} />
 					))
 				])}
 			</tbody>
