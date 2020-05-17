@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { deleteExpense, deleteIncome } from '../../redux/budget/budget.actions'
+import {
+	deleteExpense,
+	deleteIncome,
+	editEntry
+} from '../../redux/budget/budget.actions'
 import CustomButton from '../../components/custom-button/custom-button'
 import BudgetCategories from '../../components/budget-categories/budget-categories'
 
@@ -16,42 +20,85 @@ const EditPage = ({ match }) => {
 			: state.budget.income.byId[id]
 	)
 
-	const testLog = e => {
-		e.preventDefault()
-		console.log('working')
-	}
-
-	const [currentData, editedData] = useState({
+	const [currentData, setCurrentData] = useState({
 		id: item.id,
 		category: item.category,
 		description: item.description,
 		amount: item.amount,
-		time: item.time
+		time: item.time,
+		timeSpent: item.timeSpent
 	})
 
+	const handleEdits = e => {
+		const { name, value } = e.target
+
+		setCurrentData({
+			...currentData,
+			[name]: value
+		})
+	}
+
 	return (
-		<div>
+		<div key={item.id}>
 			<div className="edit-box">
 				<div>
 					<span>Date</span>
-					<input value={item.time} />
+					<input
+						name="time"
+						className="edit"
+						onChange={handleEdits}
+						value={currentData.time}
+					/>
 				</div>
 				<div>
 					<span>Amount</span>
-					<input value={currentData.amount} />
+					<input
+						name="amount"
+						className="edit"
+						onChange={handleEdits}
+						value={currentData.amount}
+					/>
 				</div>
 				<div>
 					<span>Category</span>
-					<BudgetCategories />
+					{/* // reikes sussitvarkyti kaip perduodu values */}
+					<BudgetCategories
+						name="category"
+						value={currentData.category}
+						handleChange={handleEdits}
+					/>
 				</div>
 				<div>
 					<span>Description</span>
-					<input value={currentData.description} />
+					<input
+						name="description"
+						className="edit"
+						onChange={handleEdits}
+						value={currentData.description}
+					/>
 				</div>
+				{currentData.category === 'income' ? (
+					<div>
+						<span>Time Spent</span>
+						<input
+							name="timeSpent"
+							className="edit"
+							onChange={handleEdits}
+							value={currentData.timeSpent}
+						/>
+					</div>
+				) : null}
 			</div>
 			<div className="finalize-edits">
-				<button onClick={testLog}>Save item</button>
-				<button onClick={testLog}>Discard Changes</button>
+				<Link to="/budget">
+					<button onClick={() => dispatch(editEntry(currentData))}>
+						Save Changes
+					</button>
+				</Link>
+
+				<Link to="/budget">
+					<button>Discard Changes</button>
+				</Link>
 				<Link to="/budget">
 					<button
 						onClick={() =>

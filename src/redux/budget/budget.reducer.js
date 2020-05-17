@@ -1,5 +1,7 @@
 import BudgetActionTypes from './budget.types'
 
+import { addIncome, deleteEntry, editEntryValue } from './budget.ustils'
+
 const INITIAL_STATE = {
 	expenses: {
 		byId: {
@@ -75,74 +77,8 @@ const INITIAL_STATE = {
 
 const budgetReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		// Should I move part of the logic outside the reducer?
 		case BudgetActionTypes.ADD_INCOME:
-			const newHoursWorked =
-				state.hoursWorked + parseInt(action.payload.timeSpent)
-
-			const newMontlyIncome =
-				state.monthlyIncome + parseInt(action.payload.amount)
-			const incId = action.payload.id
-
-			const newMonthlyBudget = newMontlyIncome + state.monthlyExpenses
-
-			const copyOfExpenses = {
-				...state,
-				expenses: {
-					...state.expenses,
-					byId: {
-						...state.expenses.byId
-					}
-				}
-			}
-
-			let newData
-
-			const updateTimeSpentForExpenses = state => {
-				let byId = { ...state.expenses.byId }
-				const newObjs = Object.entries(byId).map(([key, value]) => {
-					return {
-						[key]: {
-							...value,
-							timeSpent: (
-								(value.amount *
-									(state.hoursWorked +
-										Number(action.payload.timeSpent))) /
-								(state.monthlyIncome +
-									Number(action.payload.amount))
-							).toFixed(1)
-						}
-					}
-				})
-
-				for (let newObj of newObjs) {
-					Object.assign(byId, newObj)
-				}
-
-				return (newData = byId)
-			}
-			updateTimeSpentForExpenses(copyOfExpenses)
-			return {
-				...state,
-				income: {
-					...state.income,
-					byId: {
-						...state.income.byId,
-						[incId]: { ...action.payload }
-					},
-					allIds: state.income.allIds.concat(incId)
-				},
-				expenses: {
-					...state.expenses,
-					byId: {
-						...state.expenses.byId,
-						...newData
-					}
-				},
-				monthlyBudget: newMonthlyBudget,
-				hoursWorked: newHoursWorked,
-				monthlyIncome: newMontlyIncome
-			}
+			return addIncome(state, action)
 		case BudgetActionTypes.ADD_EXPENSE:
 			const newExpenses =
 				state.monthlyExpenses - parseInt(action.payload.amount)
@@ -171,43 +107,12 @@ const budgetReducer = (state = INITIAL_STATE, action) => {
 				monthlyBudget: newTotalBudget
 			}
 		case BudgetActionTypes.DELETE_EXPENSE:
-			const expenseToDelete = action.payload
-			const newState = { ...state.expenses.byId }
-			delete newState[expenseToDelete]
-
-			const newIds = state.expenses.allIds.filter(
-				item => item !== expenseToDelete
-			)
-
-			return {
-				...state,
-				expenses: {
-					...state.expenses,
-					byId: {
-						...newState
-					},
-					allIds: newIds
-				}
-			}
+			// palikti tik delete entry?
+			return deleteEntry(state, action)
 		case BudgetActionTypes.DELETE_INCOME:
-			const incomeToDelete = action.payload
-			const newIncomeState = { ...state.income.byId }
-			delete newIncomeState[incomeToDelete]
-
-			const newAllIds = state.income.allIds.filter(
-				item => item !== incomeToDelete
-			)
-
-			return {
-				...state,
-				income: {
-					...state.income,
-					byId: {
-						...newIncomeState
-					},
-					allIds: newAllIds
-				}
-			}
+			return deleteEntry(state, action)
+		case BudgetActionTypes.EDIT_ENTRY_VALUE:
+			return editEntryValue(state, action)
 		default:
 			return state
 	}
