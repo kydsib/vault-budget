@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import uniqid from 'uniqid'
 
 import BudgetCategories from '../budget-categories/budget-categories'
 import CustomButton from '../custom-button/custom-button'
 import CustomInput from '../custom-input/custom-input'
 
-import { addIncome, addExpense } from '../../redux/budget/budget.actions'
+import { addExpense } from '../../redux/expenses/expenses.actions'
+import { addIncome } from '../../redux/income/income.actions'
+import { addToBudget, subtrFromBudget } from '../../redux/budget/budget.actions'
 
 import './budget-input.scss'
 
@@ -18,6 +20,8 @@ const BudgetInput = () => {
 		amount: '',
 		timeSpent: ''
 	})
+	// for timeSpent in expenses calculation
+	const getMonthlyIncome = useSelector(state => state.budget.monthlyIncome)
 
 	const handleChange = e => {
 		e.preventDefault()
@@ -35,6 +39,17 @@ const BudgetInput = () => {
 			time: currentDate
 		})
 	}
+
+	useEffect(() => {
+		if (inputValues.timeSpent === '') {
+			console.log('runn')
+			const timeSpentVal = (inputValues.amount * 100) / getMonthlyIncome
+			setInputValues({
+				...inputValues,
+				timeSpent: timeSpentVal
+			})
+		}
+	})
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -102,8 +117,14 @@ const BudgetInput = () => {
 				disabled={!isEnabled}
 				onClick={() => {
 					inputValues.category !== 'income'
-						? dispatch(addExpense(inputValues))
-						: dispatch(addIncome(inputValues))
+						? dispatch(
+								addExpense(inputValues),
+								dispatch(subtrFromBudget(inputValues))
+						  )
+						: dispatch(
+								addIncome(inputValues),
+								dispatch(addToBudget(inputValues))
+						  )
 				}}
 				type="submit"
 			>

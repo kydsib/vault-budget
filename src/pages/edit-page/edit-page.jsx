@@ -3,21 +3,26 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
-	deleteExpense,
-	deleteIncome,
-	editEntry
+	editExpEntry,
+	deleteExpense
+} from '../../redux/expenses/expenses.actions'
+import { editIncEntry, deleteIncome } from '../../redux/income/income.actions'
+import {
+	deleteExpFromBudget,
+	deleteIncFromBudget
 } from '../../redux/budget/budget.actions'
-import CustomButton from '../../components/custom-button/custom-button'
+
 import BudgetCategories from '../../components/budget-categories/budget-categories'
 
 const EditPage = ({ match }) => {
 	const dispatch = useDispatch()
 	const id = match.params.id
 
+	// deciding if working w/ inc or exp
 	const item = useSelector(state =>
-		state.budget.expenses.byId[id]
-			? state.budget.expenses.byId[id]
-			: state.budget.income.byId[id]
+		state.expenses.byId[id]
+			? state.expenses.byId[id]
+			: state.income.byId[id]
 	)
 
 	const [currentData, setCurrentData] = useState({
@@ -61,7 +66,7 @@ const EditPage = ({ match }) => {
 				</div>
 				<div>
 					<span>Category</span>
-					{/* // reikes sussitvarkyti kaip perduodu values */}
+					{/* // reikes sussitvarkyti kaip perduodu values? */}
 					<BudgetCategories
 						name="category"
 						value={currentData.category}
@@ -91,7 +96,13 @@ const EditPage = ({ match }) => {
 			</div>
 			<div className="finalize-edits">
 				<Link to="/budget">
-					<button onClick={() => dispatch(editEntry(currentData))}>
+					<button
+						onClick={() =>
+							currentData.category === 'income'
+								? dispatch(editIncEntry(currentData))
+								: dispatch(editExpEntry(currentData))
+						}
+					>
 						Save Changes
 					</button>
 				</Link>
@@ -103,8 +114,18 @@ const EditPage = ({ match }) => {
 					<button
 						onClick={() =>
 							currentData.category === 'income'
-								? dispatch(deleteIncome(currentData.id))
-								: dispatch(deleteExpense(currentData.id))
+								? dispatch(
+										deleteIncome(currentData.id),
+										dispatch(
+											deleteIncFromBudget(currentData)
+										)
+								  )
+								: dispatch(
+										deleteExpense(currentData.id),
+										dispatch(
+											deleteExpFromBudget(currentData)
+										)
+								  )
 						}
 					>
 						Delete item

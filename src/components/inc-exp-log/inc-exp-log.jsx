@@ -1,10 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import {
-	selectIncome,
-	selectExpenses
-} from '../../redux/budget/budget.selector'
+import { selectExpenses } from '../../redux/expenses/expenses.selector'
+import { selectIncome } from '../../redux/income/income.selector'
+
 import TableHeader from '../incExp-table-header/incExp-table-header'
 
 import SingleItem from '../single-item/single-item'
@@ -17,12 +16,17 @@ const IncomeAndExpenseLog = () => {
 	// taking values from expenses.byId, renaming byId to expId
 	const { byId: expId } = useSelector(state => selectExpenses(state))
 
+	const getMonthlyIncome = useSelector(state => state.budget.monthlyIncome)
+	// map is not the correct option here, I'm not usign returned arr
+	const timeSpentAdded = Object.values(expId).map(
+		item => (item.timeSpent = (item.amount * 100) / getMonthlyIncome)
+	)
+	// Tarpinis sprendimas exp.timeSpent values, reikia sugalvoti kaip jas sudeti i store
 	const { byId: incId } = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
 
 	const finalDtata = Object.values(combinedData)
-	console.log(finalDtata)
 
 	// grouping values by date {date: [{values}], date2: [{values}]}
 	function doTheFiltering(objectArray, property) {

@@ -1,23 +1,23 @@
 import BudgetActionTypes from './budget.types'
 
-export const addIncome = entry => ({
-	type: BudgetActionTypes.ADD_INCOME,
+export const addToBudget = entry => ({
+	type: BudgetActionTypes.BUDGET_ADD_INCOME,
 	payload: entry
 })
 
-export const addExpense = entry => ({
-	type: BudgetActionTypes.ADD_EXPENSE,
+export const subtrFromBudget = entry => ({
+	type: BudgetActionTypes.BUDGET_ADD_EXPENSE,
 	payload: entry
 })
 
-export const deleteIncome = id => ({
-	type: BudgetActionTypes.DELETE_INCOME,
-	payload: id
+export const deleteIncFromBudget = item => ({
+	type: BudgetActionTypes.BUDGET_DELETE_INCOME,
+	payload: item
 })
 
-export const deleteExpense = id => ({
-	type: BudgetActionTypes.DELETE_EXPENSE,
-	payload: id
+export const deleteExpFromBudget = item => ({
+	type: BudgetActionTypes.BUDGET_DELETE_EXPENSE,
+	payload: item
 })
 
 export const editEntry = entry => ({

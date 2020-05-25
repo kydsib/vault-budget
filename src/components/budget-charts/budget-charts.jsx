@@ -1,9 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import {
-	selectIncome,
-	selectExpenses
-} from '../../redux/budget/budget.selector'
+
+import { selectExpenses } from '../../redux/expenses/expenses.selector'
+import { selectIncome } from '../../redux/income/income.selector'
 
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
@@ -11,11 +10,15 @@ import HighchartsReact from 'highcharts-react-official'
 const BudgetCharts = () => {
 	// kartojasi kodas, gal butu galima sutvarkyti?
 	const { byId: expId } = useSelector(state => selectExpenses(state))
+	const { byId: incId } = useSelector(state => selectIncome(state))
 	const budget = useSelector(state => state.budget.monthlyBudget)
+
+	const combinedData = { ...expId, ...incId }
+	console.log(combinedData)
 
 	let budgetData = ['remaining', budget]
 
-	const finalDtata = Object.values(expId)
+	const finalDtata = Object.values(combinedData)
 
 	let filteredArr = []
 	// filtering exp by category and adding up the values
