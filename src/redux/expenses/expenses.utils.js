@@ -30,6 +30,7 @@ export const deleteExpense = (state, action) => {
 
 export const addExpense = (state, action) => {
 	const incId = action.payload.id
+	console.log(action)
 
 	return {
 		...state,
@@ -38,5 +39,35 @@ export const addExpense = (state, action) => {
 			[incId]: { ...action.payload }
 		},
 		allIds: state.allIds.concat(incId)
+	}
+}
+
+export const changeTimeSpent = (state, action) => {
+	let byId = { ...state.byId }
+
+	const newObjs = Object.entries(byId).map(([key, value]) => {
+		return {
+			[key]: {
+				...value,
+				timeSpent: (
+					(Number(value.amount) *
+						Number(action.payload.hoursWorked)) /
+					action.payload.income
+				).toFixed(1)
+			}
+		}
+	})
+
+	for (let newObj of newObjs) {
+		Object.assign(byId, newObj)
+	}
+	console.log(byId)
+
+	return {
+		...state,
+		byId: {
+			...state.byId,
+			...byId
+		}
 	}
 }

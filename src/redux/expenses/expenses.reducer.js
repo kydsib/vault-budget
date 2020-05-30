@@ -1,6 +1,11 @@
 import ExpensesActionTypes from './expenses.types'
 
-import { editEntryValue, deleteExpense, addExpense } from './expenses.utils'
+import {
+	editEntryValue,
+	deleteExpense,
+	addExpense,
+	changeTimeSpent
+} from './expenses.utils'
 
 const INITIAL_STATE = {
 	byId: {
@@ -48,6 +53,8 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 			return deleteExpense(state, action)
 		case ExpensesActionTypes.EDIT_ENTRY_VALUE:
 			return editEntryValue(state, action)
+		case ExpensesActionTypes.RECALCULATE_TIME_SPENT:
+			return changeTimeSpent(state, action)
 		default:
 			return state
 	}

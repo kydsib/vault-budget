@@ -9,19 +9,18 @@ import HighchartsReact from 'highcharts-react-official'
 
 const BudgetCharts = () => {
 	// kartojasi kodas, gal butu galima sutvarkyti?
-	const { byId: expId } = useSelector(state => selectExpenses(state))
-	const { byId: incId } = useSelector(state => selectIncome(state))
+	const expId = useSelector(state => selectExpenses(state))
+	const incId = useSelector(state => selectIncome(state))
 	const budget = useSelector(state => state.budget.monthlyBudget)
 
 	const combinedData = { ...expId, ...incId }
-	console.log(combinedData)
 
 	let budgetData = ['remaining', budget]
 
 	const finalDtata = Object.values(combinedData)
 
 	let filteredArr = []
-	// filtering exp by category and adding up the values
+	// filtering by category and adding up the values
 	finalDtata.forEach(function(item) {
 		var key = ['category'].map(stats => item[stats])
 		if (!this[key]) {

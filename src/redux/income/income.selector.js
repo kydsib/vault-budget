@@ -4,5 +4,5 @@ const selectIncomeState = state => state.income
 
 export const selectIncome = createSelector(
 	[selectIncomeState],
-	income => income
+	income => income.byId
 )

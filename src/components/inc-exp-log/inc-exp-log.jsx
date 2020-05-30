@@ -13,16 +13,9 @@ import DailyBudget from '../daily-budget/daily-budget'
 import './inc-exp-log.scss'
 
 const IncomeAndExpenseLog = () => {
-	// taking values from expenses.byId, renaming byId to expId
-	const { byId: expId } = useSelector(state => selectExpenses(state))
+	const expId = useSelector(state => selectExpenses(state))
 
-	const getMonthlyIncome = useSelector(state => state.budget.monthlyIncome)
-	// map is not the correct option here, I'm not usign returned arr
-	const timeSpentAdded = Object.values(expId).map(
-		item => (item.timeSpent = (item.amount * 100) / getMonthlyIncome)
-	)
-	// Tarpinis sprendimas exp.timeSpent values, reikia sugalvoti kaip jas sudeti i store
-	const { byId: incId } = useSelector(state => selectIncome(state))
+	const incId = useSelector(state => selectIncome(state))
 
 	const combinedData = { ...expId, ...incId }
 

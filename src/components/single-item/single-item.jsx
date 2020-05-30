@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import TrashCan from '../icons/trash-can/trash-can'
 import EditButton from '../icons/edit/edit'
-import CustomInput from '../custom-input/custom-input'
 
 import './single-item.styles.scss'
 
@@ -16,19 +15,6 @@ const SingleItem = ({
 	timeSpent
 }) => {
 	const data = idData
-	// console.log(data)
-	const [edit, setEdit] = useState({
-		disabled: true
-	})
-
-	const handleEdit = e => {
-		console.log('Edit button clicked')
-		e.preventDefault()
-		setEdit({
-			...edit,
-			disabled: !edit.disabled
-		})
-	}
 
 	return (
 		<tr key={idData}>

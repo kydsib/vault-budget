@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import uniqid from 'uniqid'
 
@@ -6,7 +6,10 @@ import BudgetCategories from '../budget-categories/budget-categories'
 import CustomButton from '../custom-button/custom-button'
 import CustomInput from '../custom-input/custom-input'
 
-import { addExpense } from '../../redux/expenses/expenses.actions'
+import {
+	addExpense,
+	recalcExpTimeSpent
+} from '../../redux/expenses/expenses.actions'
 import { addIncome } from '../../redux/income/income.actions'
 import { addToBudget, subtrFromBudget } from '../../redux/budget/budget.actions'
 
@@ -32,24 +35,25 @@ const BudgetInput = () => {
 			.substr(0, 19)
 			.replace('T', ' ')
 
-		setInputValues({
-			...inputValues,
-			[name]: value,
-			id: uniqid(),
-			time: currentDate
-		})
-	}
-
-	useEffect(() => {
-		if (inputValues.timeSpent === '') {
-			console.log('runn')
-			const timeSpentVal = (inputValues.amount * 100) / getMonthlyIncome
+		// automaticly calculating timeSpent for expenses depending on monthly income
+		if (name === 'amount' && inputValues.category !== 'income') {
+			const hoursSpent = ((value * 100) / getMonthlyIncome).toFixed(1)
 			setInputValues({
 				...inputValues,
-				timeSpent: timeSpentVal
+				[name]: value,
+				id: uniqid(),
+				time: currentDate,
+				timeSpent: hoursSpent
+			})
+		} else {
+			setInputValues({
+				...inputValues,
+				[name]: value,
+				id: uniqid(),
+				time: currentDate
 			})
 		}
-	})
+	}
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -65,6 +69,14 @@ const BudgetInput = () => {
 		})
 	}
 	const { amount, timeSpent } = inputValues
+
+	const combinedActions = inputValues => {
+		return dispatch => {
+			dispatch(addIncome(inputValues))
+			dispatch(addToBudget(inputValues))
+			dispatch(recalcExpTimeSpent())
+		}
+	}
 
 	//Disable submit if not all values are entered
 	let isEnabled
@@ -121,10 +133,7 @@ const BudgetInput = () => {
 								addExpense(inputValues),
 								dispatch(subtrFromBudget(inputValues))
 						  )
-						: dispatch(
-								addIncome(inputValues),
-								dispatch(addToBudget(inputValues))
-						  )
+						: dispatch(combinedActions(inputValues))
 				}}
 				type="submit"
 			>
