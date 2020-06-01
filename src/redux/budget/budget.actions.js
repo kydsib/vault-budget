@@ -20,7 +20,12 @@ export const deleteExpFromBudget = item => ({
 	payload: item
 })
 
-export const editEntry = entry => ({
-	type: BudgetActionTypes.EDIT_ENTRY_VALUE,
+export const incEditChangesBudget = entry => ({
+	type: BudgetActionTypes.BUDGET_EDIT_ON_INC,
+	payload: entry
+})
+
+export const expEditChangesBudget = entry => ({
+	type: BudgetActionTypes.BUDGET_EDIT_ON_EXP,
 	payload: entry
 })

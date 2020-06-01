@@ -14,3 +14,9 @@ export const editIncEntry = entry => ({
 	type: IncomeActionTypes.EDIT_INCOME_VALUE,
 	payload: entry
 })
+
+// export const incEditAdjustBudget = () => {
+// 	return (dispatch, getState) => {
+// 		const state = getState()
+// 	}
+// }

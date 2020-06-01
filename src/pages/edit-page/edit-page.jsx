@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom'
 
 import {
 	editExpEntry,
-	deleteExpense
+	deleteExpense,
+	recalcExpTimeSpent
 } from '../../redux/expenses/expenses.actions'
 import { editIncEntry, deleteIncome } from '../../redux/income/income.actions'
 import {
 	deleteExpFromBudget,
-	deleteIncFromBudget
+	deleteIncFromBudget,
+	incEditChangesBudget,
+	expEditChangesBudget
 } from '../../redux/budget/budget.actions'
 
 import BudgetCategories from '../../components/budget-categories/budget-categories'
@@ -33,6 +36,16 @@ const EditPage = ({ match }) => {
 		time: item.time,
 		timeSpent: item.timeSpent
 	})
+	// not sure if this an optimal approach or I should use
+	// recalcExpTimeSpent logic
+	const [oldData, setOldData] = useState({
+		id: item.id,
+		category: item.category,
+		description: item.description,
+		amount: item.amount,
+		time: item.time,
+		timeSpent: item.timeSpent
+	})
 
 	const handleEdits = e => {
 		const { name, value } = e.target
@@ -41,6 +54,42 @@ const EditPage = ({ match }) => {
 			...currentData,
 			[name]: value
 		})
+	}
+
+	const deleteIncomeActions = data => {
+		return dispatch => {
+			dispatch(deleteIncome(data.id))
+			dispatch(deleteIncFromBudget(data))
+			dispatch(recalcExpTimeSpent())
+		}
+	}
+
+	const editIncomeActions = data => {
+		const payload = {
+			amountDifference: currentData.amount - oldData.amount,
+			timeSpentDiff: currentData.timeSpent - oldData.timeSpent
+		}
+
+		return dispatch => {
+			dispatch(editIncEntry(data)) // veikia
+			dispatch(incEditChangesBudget(payload))
+			// exp approach is better because it gets state inside a function
+			// so I don't need to calculate it in the component
+			dispatch(recalcExpTimeSpent())
+		}
+	}
+
+	const editExpActions = data => {
+		const payload = {
+			amountDifference: oldData.amount - currentData.amount,
+			timeSpentDiff: oldData.timeSpent - currentData.timeSpent
+		}
+
+		return dispatch => {
+			dispatch(editExpEntry(data))
+			dispatch(recalcExpTimeSpent())
+			dispatch(expEditChangesBudget(payload))
+		}
 	}
 
 	return (
@@ -99,8 +148,8 @@ const EditPage = ({ match }) => {
 					<button
 						onClick={() =>
 							currentData.category === 'income'
-								? dispatch(editIncEntry(currentData))
-								: dispatch(editExpEntry(currentData))
+								? dispatch(editIncomeActions(currentData))
+								: dispatch(editExpActions(currentData))
 						}
 					>
 						Save Changes
@@ -114,12 +163,7 @@ const EditPage = ({ match }) => {
 					<button
 						onClick={() =>
 							currentData.category === 'income'
-								? dispatch(
-										deleteIncome(currentData.id),
-										dispatch(
-											deleteIncFromBudget(currentData)
-										)
-								  )
+								? dispatch(deleteIncomeActions(currentData))
 								: dispatch(
 										deleteExpense(currentData.id),
 										dispatch(

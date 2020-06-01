@@ -19,8 +19,11 @@ export const editExpEntry = entry => ({
 	payload: entry
 })
 
+// middleware function
+// https://redux.js.org/api/applymiddleware
 export const recalcExpTimeSpent = () => {
 	return (dispatch, getState) => {
+		// need this to acces budget data
 		const state = getState()
 
 		const monthlyIncome = selectMonthlyIncome(state)
