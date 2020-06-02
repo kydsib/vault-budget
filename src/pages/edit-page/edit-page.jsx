@@ -38,7 +38,7 @@ const EditPage = ({ match }) => {
 	})
 	// not sure if this an optimal approach or I should use
 	// recalcExpTimeSpent logic
-	const [oldData, setOldData] = useState({
+	const [oldData] = useState({
 		id: item.id,
 		category: item.category,
 		description: item.description,

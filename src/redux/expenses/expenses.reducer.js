@@ -42,7 +42,23 @@ const INITIAL_STATE = {
 			time: '2020-04-11'
 		}
 	},
-	allIds: ['k948zpnp', 'z9e8ipnp', 'k948zcvc', 'k948zp32']
+	allIds: ['k948zpnp', 'z9e8ipnp', 'k948zcvc', 'k948zp32'],
+	expBudget: {
+		totalSetBudget: 500, // this comes from all set budgets
+		curentExp: 340 // this comes from exp
+	},
+	budgetByCategory: {
+		other: {
+			id: 'other',
+			categoryBudget: 250, // set
+			categoryExpenses: 240 // calc
+		},
+		food: {
+			id: 'food',
+			categoryBudget: 175, // set
+			categoryExpenses: 32 // calc
+		}
+	}
 }
 
 const expensesReducer = (state = INITIAL_STATE, action) => {

@@ -37,3 +37,8 @@ export const recalcExpTimeSpent = () => {
 		})
 	}
 }
+
+export const setCategoryBudget = data => ({
+	type: ExpensesActionTypes.SET_CATEGORY_BUDGET,
+	payload: data
+})
