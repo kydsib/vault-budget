@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setCategoryBudget } from '../../redux/expenses/expenses.actions'
 
 import CategoryItem from '../category-item/category-item'
 import CustomButton from '../custom-button/custom-button'
-import SetMonthlyExpByCategory from '../exp-budget-setter/exp-budget-setter'
 import AddItemButton from '../icons/add-item/add-item'
+import BudgetCategories from '../budget-categories/budget-categories'
+import CustomInput from '../custom-input/custom-input'
+
+import './monthly-budget.styles.scss'
 
 const MonthlyBudgetsList = () => {
 	const [addCategory, setAddCategory] = useState({
@@ -11,9 +17,13 @@ const MonthlyBudgetsList = () => {
 	})
 
 	const [category, setCategory] = useState({
-		name: '',
-		budget: ''
+		id: '',
+		categoryBudget: ''
 	})
+
+	const expByCategory = useSelector(state => state.expenses.budgetByCategory)
+
+	const dispatch = useDispatch()
 
 	const handleAddButton = e => {
 		e.preventDefault()
@@ -25,24 +35,77 @@ const MonthlyBudgetsList = () => {
 	}
 
 	const handleChange = e => {
-		// take category input form SetMonthly?
-		// take budget values form there
+		e.preventDefault()
+
+		const { name, value } = e.target
+
+		if (e.target.name === 'categoryName') {
+			setCategory({
+				...category,
+				[name]: value,
+				id: e.target.value
+			})
+		} else {
+			setCategory({
+				...category,
+				[name]: value
+			})
+		}
+	}
+
+	const handleSubmit = e => {
+		e.preventDefault()
+
+		console.log('Submit fired')
+		setAddCategory({
+			...addCategory,
+			active: !addCategory.active
+		})
+
+		setCategory({
+			...category,
+			categoryName: '',
+			categoryBudget: ''
+		})
 	}
 
 	return (
-		<div>
-			<div>
-				{addCategory.active ? (
-					<div>
-						<SetMonthlyExpByCategory />
-						<CustomButton type="submit">Set Budget</CustomButton>
-					</div>
-				) : null}
-			</div>
+		<form onSubmit={handleSubmit}>
+			{addCategory.active ? (
+				<fieldset>
+					<BudgetCategories
+						name="categoryName"
+						handleChange={handleChange}
+					/>
+					<CustomInput
+						name="categoryBudget"
+						handleChange={handleChange}
+						type="number"
+						placeholder="Enter budget amount"
+					/>
+					<CustomButton
+						onClick={() =>
+							category.categoryName !== 'income'
+								? dispatch(setCategoryBudget(category))
+								: null
+						}
+						type="submit"
+					>
+						Set Budget
+					</CustomButton>
+				</fieldset>
+			) : null}
+			{Object.values(expByCategory).map(item => (
+				<CategoryItem
+					key={item.id}
+					catBud={item.categoryBudget}
+					catExp={item.categoryExpenses}
+					catName={item.categoryName}
+				/>
+			))}
 
-			<CategoryItem />
 			<AddItemButton onClick={handleAddButton} />
-		</div>
+		</form>
 	)
 }
 

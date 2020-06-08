@@ -34,6 +34,7 @@ const IncomeAndExpenseLog = () => {
 	}
 
 	let budgetByday = doTheFiltering(finalDtata, 'time')
+
 	// Sorting by date
 	let sortedByDay = {}
 	Object.keys(budgetByday)

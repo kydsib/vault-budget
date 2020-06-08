@@ -71,3 +71,5 @@ export const changeTimeSpent = (state, action) => {
 		}
 	}
 }
+
+export const updateMonthlyCategoryBudget = (state, action) => {}

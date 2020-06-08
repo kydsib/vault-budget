@@ -8,7 +8,8 @@ import CustomInput from '../custom-input/custom-input'
 
 import {
 	addExpense,
-	recalcExpTimeSpent
+	recalcExpTimeSpent,
+	recalMothlyCategoryBudget
 } from '../../redux/expenses/expenses.actions'
 import { addIncome } from '../../redux/income/income.actions'
 import { addToBudget, subtrFromBudget } from '../../redux/budget/budget.actions'
@@ -78,6 +79,14 @@ const BudgetInput = () => {
 		}
 	}
 
+	const combinedExpAction = inputValues => {
+		return dispatch => {
+			dispatch(addExpense(inputValues))
+			dispatch(subtrFromBudget(inputValues))
+			dispatch(recalMothlyCategoryBudget(inputValues))
+		}
+	}
+
 	//Disable submit if not all values are entered
 	let isEnabled
 
@@ -129,10 +138,7 @@ const BudgetInput = () => {
 				disabled={!isEnabled}
 				onClick={() => {
 					inputValues.category !== 'income'
-						? dispatch(
-								addExpense(inputValues),
-								dispatch(subtrFromBudget(inputValues))
-						  )
+						? dispatch(combinedExpAction(inputValues))
 						: dispatch(combinedActions(inputValues))
 				}}
 				type="submit"

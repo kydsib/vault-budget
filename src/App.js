@@ -6,6 +6,7 @@ import {
 	Redirect
 } from 'react-router-dom'
 
+import Header from './components/header/header'
 import EditPage from './pages/edit-page/edit-page'
 import BudgetPage from './pages/budget/budget-page'
 import BudgetPlanning from './pages/planning/budget-planning-page'
@@ -16,6 +17,7 @@ import './App.scss'
 function App() {
 	return (
 		<Router>
+			<Header />
 			<Switch>
 				<Route path="/entry/:id" exact component={EditPage} />
 				<Route path="/testing" component={TestComponent} />

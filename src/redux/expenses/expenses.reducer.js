@@ -48,11 +48,6 @@ const INITIAL_STATE = {
 		curentExp: 340 // this comes from exp
 	},
 	budgetByCategory: {
-		other: {
-			id: 'other',
-			categoryBudget: 250, // set
-			categoryExpenses: 240 // calc
-		},
 		food: {
 			id: 'food',
 			categoryBudget: 175, // set
@@ -71,6 +66,99 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 			return editEntryValue(state, action)
 		case ExpensesActionTypes.RECALCULATE_TIME_SPENT:
 			return changeTimeSpent(state, action)
+		case ExpensesActionTypes.SET_CATEGORY_BUDGET:
+			const budgetId = action.payload.id
+			console.log(budgetId)
+
+			// need to filter expState for expenses in this category
+			const expensesByCategory = Object.values(state.byId).filter(
+				item => item.category === budgetId
+			)
+			const expensesInCategory = expensesByCategory.reduce(
+				(acc, curr) => acc + Number(curr.amount),
+				0
+			)
+
+			if (!state.budgetByCategory[budgetId]) {
+				return {
+					...state,
+					expBudget: {
+						...state.expBudget,
+						totalSetBudget:
+							state.expBudget.totalSetBudget +
+							Number(action.payload.categoryBudget)
+					},
+					budgetByCategory: {
+						...state.budgetByCategory,
+						[budgetId]: {
+							...state.budgetByCategory.budgetId,
+							...action.payload,
+							categoryExpenses: expensesInCategory
+						}
+					}
+				}
+			} else {
+				return state
+			}
+		case ExpensesActionTypes.UPDATE_MOTHNY_CATEGORY_BUDGET:
+			const categoryToUpdate = action.payload.category
+
+			Object.values(state.budgetByCategory).forEach(item => {
+				if (item.id === categoryToUpdate) {
+					console.log('y')
+					console.log(state.budgetByCategory[categoryToUpdate])
+				} else {
+					console.log('n')
+				}
+			})
+			return {
+				...state
+			}
+		// Object.values(state.budgetByCategory).forEach(item => {
+		// 	if (item.id === categoryToUpdate) {
+		// 		console.log(categoryToUpdate)
+		// 		// console.log(action.payload.amount)
+		// 		const newExpenses =
+		// 			state.budgetByCategory[categoryToUpdate]
+		// 				.categoryExpenses + Number(action.payload.amount)
+		// 		// const newTotalExp =
+		// 		// 	state.expBudget.curentExp +
+		// 		// 	Number(action.payload.amount)
+		// 		console.log(state)
+		// 		// console.log(state.budgetByCategory[categoryToUpdate])
+		// 		console.log(state.budgetByCategory.categoryToUpdate) // kodel sitas logina undefined?
+		// 		console.log(
+		// 			state.budgetByCategory.categoryToUpdate.categoryExpenses
+		// 		)
+		// 		// console.log(state.budgetByCategory[categoryToUpdate])
+		// 		console.log(newExpenses)
+		// 		// cia logina viska gerai, kodel negaunu reikiamo value?
+		// 		return {
+		// 			...state,
+		// 			// expBudget: {
+		// 			// 	...state.expBudget,
+		// 			// 	curentExp:
+		// 			// 		state.budgetByCategory[categoryToUpdate]
+		// 			// 			.categoryExpenses +
+		// 			// 		Number(action.payload.amount)
+		// 			// }
+		// 			budgetByCategory: {
+		// 				...state.budgetByCategory,
+		// 				[categoryToUpdate]: {
+		// 					...state.budgetByCategory[categoryToUpdate],
+		// 					categoryExpenses:
+		// 						state.budgetByCategory[categoryToUpdate]
+		// 							.categoryExpenses + 20
+		// 				}
+		// 			}
+		// 		}
+		// 	} else {
+		// 		return {
+		// 			...state
+		// 		}
+		// 	}
+		// })
+
 		default:
 			return state
 	}

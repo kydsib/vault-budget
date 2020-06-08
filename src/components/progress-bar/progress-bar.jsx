@@ -1,10 +1,16 @@
 import React from 'react'
 
-const ProgressBar = () => {
-	// need value of category budget
-	// value of curent exp in category
-	// const progress = (categoryExp * 100) / categoryBudget
-	return <div className="progress-bar"></div>
+import './progress-bar.styles.scss'
+
+const ProgressBar = ({ prc }) => {
+	const progressStyle = {
+		width: `${prc}%`
+	}
+	return (
+		<div className="progress-bar">
+			<div className="progress" style={progressStyle}></div>
+		</div>
+	)
 }
 
 export default ProgressBar
