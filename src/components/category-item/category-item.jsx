@@ -4,7 +4,7 @@ import ProgressBar from '../progress-bar/progress-bar'
 
 const CategoryItem = ({ catBud, catExp, catName }) => {
 	const progressInPercent = ((catExp * 100) / catBud).toFixed(1)
-	console.log(progressInPercent)
+
 	return (
 		<div className="category-item">
 			<div className="category-item__top">

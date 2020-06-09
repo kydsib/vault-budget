@@ -72,4 +72,6 @@ export const changeTimeSpent = (state, action) => {
 	}
 }
 
-export const updateMonthlyCategoryBudget = (state, action) => {}
+export const updateMonthlyCategoryBudget = (state, action) => {
+	const categoryToUpdate = action.payload.category
+}

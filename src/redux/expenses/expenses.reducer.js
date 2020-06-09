@@ -86,7 +86,10 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 						...state.expBudget,
 						totalSetBudget:
 							state.expBudget.totalSetBudget +
-							Number(action.payload.categoryBudget)
+							Number(action.payload.categoryBudget),
+						// bus problema nes gaus tik last value, o reiketu combined?
+						curentExp:
+							state.expBudget.curentExp + expensesInCategory
 					},
 					budgetByCategory: {
 						...state.budgetByCategory,
@@ -101,64 +104,41 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 				return state
 			}
 		case ExpensesActionTypes.UPDATE_MOTHNY_CATEGORY_BUDGET:
+			let newState
 			const categoryToUpdate = action.payload.category
 
 			Object.values(state.budgetByCategory).forEach(item => {
 				if (item.id === categoryToUpdate) {
-					console.log('y')
-					console.log(state.budgetByCategory[categoryToUpdate])
+					console.log('this categoryBudget exists')
+					const updatedExpValue =
+						Number(action.payload.amount) +
+						state.budgetByCategory[categoryToUpdate]
+							.categoryExpenses
+
+					return (newState = {
+						...state,
+						budgetByCategory: {
+							...state.budgetByCategory,
+							[categoryToUpdate]: {
+								...state.budgetByCategory[categoryToUpdate],
+								categoryExpenses: updatedExpValue
+							}
+						},
+						expBudget: {
+							...state.expBudget,
+							curentExp:
+								state.expBudget.curentExp +
+								Number(action.payload.amount)
+						}
+					})
 				} else {
-					console.log('n')
+					return (newState = { ...state })
 				}
 			})
 			return {
-				...state
+				...state,
+				...newState
 			}
-		// Object.values(state.budgetByCategory).forEach(item => {
-		// 	if (item.id === categoryToUpdate) {
-		// 		console.log(categoryToUpdate)
-		// 		// console.log(action.payload.amount)
-		// 		const newExpenses =
-		// 			state.budgetByCategory[categoryToUpdate]
-		// 				.categoryExpenses + Number(action.payload.amount)
-		// 		// const newTotalExp =
-		// 		// 	state.expBudget.curentExp +
-		// 		// 	Number(action.payload.amount)
-		// 		console.log(state)
-		// 		// console.log(state.budgetByCategory[categoryToUpdate])
-		// 		console.log(state.budgetByCategory.categoryToUpdate) // kodel sitas logina undefined?
-		// 		console.log(
-		// 			state.budgetByCategory.categoryToUpdate.categoryExpenses
-		// 		)
-		// 		// console.log(state.budgetByCategory[categoryToUpdate])
-		// 		console.log(newExpenses)
-		// 		// cia logina viska gerai, kodel negaunu reikiamo value?
-		// 		return {
-		// 			...state,
-		// 			// expBudget: {
-		// 			// 	...state.expBudget,
-		// 			// 	curentExp:
-		// 			// 		state.budgetByCategory[categoryToUpdate]
-		// 			// 			.categoryExpenses +
-		// 			// 		Number(action.payload.amount)
-		// 			// }
-		// 			budgetByCategory: {
-		// 				...state.budgetByCategory,
-		// 				[categoryToUpdate]: {
-		// 					...state.budgetByCategory[categoryToUpdate],
-		// 					categoryExpenses:
-		// 						state.budgetByCategory[categoryToUpdate]
-		// 							.categoryExpenses + 20
-		// 				}
-		// 			}
-		// 		}
-		// 	} else {
-		// 		return {
-		// 			...state
-		// 		}
-		// 	}
-		// })
-
 		default:
 			return state
 	}
