@@ -22,6 +22,12 @@ const MonthlyBudgetsList = () => {
 	})
 
 	const expByCategory = useSelector(state => state.expenses.budgetByCategory)
+	const totalMonthlyBudget = useSelector(
+		state => state.expenses.expBudget.totalSetBudget
+	)
+	const totalMonthlyExpenses = useSelector(
+		state => state.expenses.expBudget.curentExp
+	)
 
 	const dispatch = useDispatch()
 
@@ -56,7 +62,6 @@ const MonthlyBudgetsList = () => {
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		console.log('Submit fired')
 		setAddCategory({
 			...addCategory,
 			active: !addCategory.active
@@ -95,6 +100,11 @@ const MonthlyBudgetsList = () => {
 					</CustomButton>
 				</fieldset>
 			) : null}
+			<CategoryItem
+				catName="Total budget"
+				catBud={totalMonthlyBudget}
+				catExp={totalMonthlyExpenses}
+			/>
 			{Object.values(expByCategory).map(item => (
 				<CategoryItem
 					key={item.id}

@@ -68,7 +68,6 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 			return changeTimeSpent(state, action)
 		case ExpensesActionTypes.SET_CATEGORY_BUDGET:
 			const budgetId = action.payload.id
-			console.log(budgetId)
 
 			// need to filter expState for expenses in this category
 			const expensesByCategory = Object.values(state.byId).filter(
@@ -106,39 +105,35 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 		case ExpensesActionTypes.UPDATE_MOTHNY_CATEGORY_BUDGET:
 			let newState
 			const categoryToUpdate = action.payload.category
+			const found = Object.values(state.budgetByCategory).find(
+				item => item.id === categoryToUpdate
+			)
 
-			Object.values(state.budgetByCategory).forEach(item => {
-				if (item.id === categoryToUpdate) {
-					console.log('this categoryBudget exists')
-					const updatedExpValue =
-						Number(action.payload.amount) +
-						state.budgetByCategory[categoryToUpdate]
-							.categoryExpenses
+			if (found) {
+				const updatedExpValue =
+					Number(action.payload.amount) +
+					state.budgetByCategory[categoryToUpdate].categoryExpenses
 
-					return (newState = {
-						...state,
-						budgetByCategory: {
-							...state.budgetByCategory,
-							[categoryToUpdate]: {
-								...state.budgetByCategory[categoryToUpdate],
-								categoryExpenses: updatedExpValue
-							}
-						},
-						expBudget: {
-							...state.expBudget,
-							curentExp:
-								state.expBudget.curentExp +
-								Number(action.payload.amount)
+				return (newState = {
+					...state,
+					budgetByCategory: {
+						...state.budgetByCategory,
+						[categoryToUpdate]: {
+							...state.budgetByCategory[categoryToUpdate],
+							categoryExpenses: updatedExpValue
 						}
-					})
-				} else {
-					return (newState = { ...state })
-				}
-			})
-			return {
-				...state,
-				...newState
+					},
+					expBudget: {
+						...state.expBudget,
+						curentExp:
+							state.expBudget.curentExp +
+							Number(action.payload.amount)
+					}
+				})
+			} else {
+				return (newState = { ...state })
 			}
+
 		default:
 			return state
 	}
