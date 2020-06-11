@@ -47,3 +47,8 @@ export const recalMothlyCategoryBudget = data => ({
 	type: ExpensesActionTypes.UPDATE_MOTHNY_CATEGORY_BUDGET,
 	payload: data
 })
+
+export const editMonthlyCategoryBudget = amount => ({
+	type: ExpensesActionTypes.UPDATE_MOTHNY_CATEGORY_BUDGET,
+	payload: amount
+})

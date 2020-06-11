@@ -1,0 +1,23 @@
+.category-item__top {
+	width: 77%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.category-item__mid {
+	display: flex;
+
+	.progress-bar {
+		width: 77%;
+	}
+
+	.active-buttons {
+		padding-left: 5px;
+	}
+}
+
+.category-item__bot {
+	width: 77%;
+	display: flex;
+	justify-content: space-between;
+}

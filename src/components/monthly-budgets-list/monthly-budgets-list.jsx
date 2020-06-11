@@ -16,6 +16,10 @@ const MonthlyBudgetsList = () => {
 		active: false
 	})
 
+	const [editCategory, setEditCategory] = useState({
+		active: false
+	})
+
 	const [category, setCategory] = useState({
 		id: '',
 		categoryBudget: ''
@@ -37,6 +41,15 @@ const MonthlyBudgetsList = () => {
 		setAddCategory({
 			...addCategory,
 			active: !addCategory.active
+		})
+	}
+
+	const handleEditCategoryBudget = e => {
+		e.preventDefault()
+
+		setEditCategory({
+			...editCategory,
+			active: !editCategory.active
 		})
 	}
 
@@ -75,47 +88,54 @@ const MonthlyBudgetsList = () => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			{addCategory.active ? (
-				<fieldset>
-					<BudgetCategories
-						name="categoryName"
-						handleChange={handleChange}
-					/>
-					<CustomInput
-						name="categoryBudget"
-						handleChange={handleChange}
-						type="number"
-						placeholder="Enter budget amount"
-					/>
-					<CustomButton
-						onClick={() =>
-							category.categoryName !== 'income'
-								? dispatch(setCategoryBudget(category))
-								: null
-						}
-						type="submit"
-					>
-						Set Budget
-					</CustomButton>
-				</fieldset>
-			) : null}
-			<CategoryItem
-				catName="Total budget"
-				catBud={totalMonthlyBudget}
-				catExp={totalMonthlyExpenses}
-			/>
-			{Object.values(expByCategory).map(item => (
+		<div>
+			<form onSubmit={handleSubmit}>
+				{addCategory.active ? (
+					// iskelti sita i atskira komponenta?
+					<fieldset>
+						<BudgetCategories
+							name="categoryName"
+							handleChange={handleChange}
+						/>
+						<CustomInput
+							name="categoryBudget"
+							handleChange={handleChange}
+							type="number"
+							placeholder="Enter budget amount"
+						/>
+						<CustomButton
+							onClick={() =>
+								category.categoryName !== 'income'
+									? dispatch(setCategoryBudget(category))
+									: null
+							}
+							type="submit"
+						>
+							Set Budget
+						</CustomButton>
+					</fieldset>
+				) : null}
 				<CategoryItem
-					key={item.id}
-					catBud={item.categoryBudget}
-					catExp={item.categoryExpenses}
-					catName={item.categoryName}
+					categoryName="Total budget"
+					categoryBudget={totalMonthlyBudget}
+					categoryExpense={totalMonthlyExpenses}
 				/>
-			))}
+				{Object.values(expByCategory).map(item => (
+					<CategoryItem
+						key={item.id}
+						id={item.id}
+						categoryBudget={item.categoryBudget}
+						categoryExpense={item.categoryExpenses}
+						categoryName={item.categoryName}
+						editActive={handleEditCategoryBudget}
+						valueEditable={editCategory.active}
+						editBudget={handleChange}
+					/>
+				))}
 
-			<AddItemButton onClick={handleAddButton} />
-		</form>
+				<AddItemButton onClick={handleAddButton} />
+			</form>
+		</div>
 	)
 }
 
