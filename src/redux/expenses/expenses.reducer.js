@@ -133,7 +133,49 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
 			} else {
 				return (newState = { ...state })
 			}
+		case ExpensesActionTypes.EDITING_CATEGORY_BUDGET:
+			const newMontlyBudget =
+				state.expBudget.totalSetBudget + action.payload.amount
 
+			const upadedCategoryBudget =
+				Number(
+					state.budgetByCategory[action.payload.id].categoryBudget
+				) + Number(action.payload.amount)
+
+			return {
+				...state,
+				expBudget: {
+					...state.expBudget,
+					totalSetBudget: newMontlyBudget
+				},
+				budgetByCategory: {
+					...state.budgetByCategory,
+					[action.payload.id]: {
+						...state.budgetByCategory[action.payload.id],
+						categoryBudget: upadedCategoryBudget
+					}
+				}
+			}
+		case ExpensesActionTypes.DELETE_CATEGORY_BUDGET:
+			// not sure if this approach is ok, dig more
+			const stateWithoutDeletedCategory = { ...state.budgetByCategory }
+
+			delete stateWithoutDeletedCategory[action.payload.id]
+
+			return {
+				...state,
+				expBudget: {
+					...state.expBudget,
+					totalSetBudget:
+						state.expBudget.totalSetBudget -
+						action.payload.budgetAmount,
+					curentExp:
+						state.expBudget.curentExp - action.payload.currentExp
+				},
+				budgetByCategory: {
+					...stateWithoutDeletedCategory
+				}
+			}
 		default:
 			return state
 	}

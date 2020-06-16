@@ -8,6 +8,7 @@ import CustomButton from '../custom-button/custom-button'
 import AddItemButton from '../icons/add-item/add-item'
 import BudgetCategories from '../budget-categories/budget-categories'
 import CustomInput from '../custom-input/custom-input'
+import AlertBox from '../alert-box/alert'
 
 import './monthly-budget.styles.scss'
 
@@ -89,6 +90,7 @@ const MonthlyBudgetsList = () => {
 
 	return (
 		<div>
+			<AlertBox />
 			<form onSubmit={handleSubmit}>
 				{addCategory.active ? (
 					// iskelti sita i atskira komponenta?

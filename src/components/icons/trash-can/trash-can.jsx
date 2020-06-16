@@ -2,9 +2,10 @@ import React from 'react'
 
 import './trash-can.styles.scss'
 
-const TrashCan = () => {
+const TrashCan = ({ onClick }) => {
 	return (
 		<svg
+			onClick={onClick}
 			className="icon"
 			xmlns="http://www.w3.org/2000/svg"
 			height="20"

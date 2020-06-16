@@ -22,6 +22,7 @@ export const deleteExpense = (state, action) => {
 	return {
 		...state,
 		byId: {
+			// is this ok?
 			...newState
 		},
 		allIds: newAllIds

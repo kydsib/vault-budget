@@ -4,7 +4,8 @@ import './progress-bar.styles.scss'
 
 const ProgressBar = ({ prc }) => {
 	const progressStyle = {
-		width: `${prc}%`
+		width: `${prc}%`,
+		backgroundColor: `${prc >= 100 ? 'red' : 'green'}`
 	}
 	return (
 		<div className="progress-bar">

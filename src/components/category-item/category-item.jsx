@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { editMonthlyCategoryBudget } from '../../redux/expenses/expenses.actions'
+import {
+	editMonthlyCategoryBudget,
+	deleteCategoryBudget
+} from '../../redux/expenses/expenses.actions'
 import SaveIcon from '../icons/save-icon/save'
 import ProgressBar from '../progress-bar/progress-bar'
 import CustomInput from '../custom-input/custom-input'
@@ -35,6 +38,7 @@ const CategoryItem = ({
 			[name]: value
 		})
 	}
+
 	return (
 		<div className="category-item">
 			<div className="category-item__top">
@@ -52,16 +56,33 @@ const CategoryItem = ({
 			</div>
 			{/* // conditionaly render mid, discard in total budget */}
 			<div className="category-item__mid">
-				<ProgressBar className="progress" prc={progressInPercent} />
+				<ProgressBar
+					className="progress"
+					prc={progressInPercent >= 100 ? 100 : progressInPercent}
+				/>
 				<div className="active-buttons">
 					<EditButon onClick={editActive} />
-					<TrashCan />
-					<SaveIcon
+					<TrashCan
 						onClick={() =>
 							dispatch(
-								editMonthlyCategoryBudget(
-									editedBudgetValue.amount - categoryBudget
-								)
+								deleteCategoryBudget({
+									budgetAmount: categoryBudget,
+									currentExp: categoryExpense,
+									id: categoryName
+								})
+							)
+						}
+					/>
+					<SaveIcon
+						// Make edit Field inactive after save
+						onClick={() =>
+							dispatch(
+								editMonthlyCategoryBudget({
+									amount:
+										editedBudgetValue.amount -
+										categoryBudget,
+									id: categoryName
+								})
 							)
 						}
 					/>
