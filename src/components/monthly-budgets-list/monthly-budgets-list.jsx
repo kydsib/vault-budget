@@ -88,9 +88,26 @@ const MonthlyBudgetsList = () => {
 		})
 	}
 
+	const [alertBox, setAlertBox] = useState({
+		dispalay: false
+	})
+
+	const handleAlert = e => {
+		e.preventDefault()
+
+		setAlertBox({
+			...alertBox,
+			dispaly: !alertBox.dispalay
+		})
+	}
+
 	return (
 		<div>
-			<AlertBox />
+			<AlertBox
+				handleAlert={handleAlert}
+				// handleDelete={}
+				alertBox={alertBox.dispalay}
+			/>
 			<form onSubmit={handleSubmit}>
 				{addCategory.active ? (
 					// iskelti sita i atskira komponenta?
@@ -132,6 +149,7 @@ const MonthlyBudgetsList = () => {
 						editActive={handleEditCategoryBudget}
 						valueEditable={editCategory.active}
 						editBudget={handleChange}
+						handleAlert={handleAlert}
 					/>
 				))}
 

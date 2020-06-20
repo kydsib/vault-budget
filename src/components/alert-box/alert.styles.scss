@@ -1,0 +1,27 @@
+@import '../../index.scss';
+
+.alert-container {
+	font-size: 2.2em;
+	display: flex;
+	flex-direction: column;
+
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	top: 50%;
+
+	height: 150px;
+	width: 300px;
+	background: $color-tertiary;
+	display: flex;
+
+	&__txt {
+		text-align: center;
+		padding: 20px;
+	}
+
+	&__buttons {
+		display: flex;
+		justify-content: space-evenly;
+	}
+}

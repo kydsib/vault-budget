@@ -14,7 +14,7 @@ const TableHeader = () => {
 			<tr className="table-header">
 				<th className="table-header__item">Income</th>
 				<th className="table-header__item">Expenses</th>
-				<th className="table-header__item">Total / Hours worked </th>
+				<th className="table-header__item">Total - &euro;/hrs</th>
 			</tr>
 			<tr>
 				<th className="value green">{income}</th>

@@ -26,7 +26,7 @@ const SingleItem = ({
 					&euro;{amount} / {timeSpent}h
 				</span>
 				<span>
-					<span className="margin">
+					<span>
 						<Link to={`entry/${data}`}>
 							<EditButton />
 							<TrashCan />

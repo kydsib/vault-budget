@@ -111,7 +111,7 @@ const BudgetInput = () => {
 				type="text"
 				name="description"
 				placeholder="Description"
-				className="input-item flex-3"
+				className="input-item"
 			/>
 			<CustomInput
 				handleChange={handleChange}

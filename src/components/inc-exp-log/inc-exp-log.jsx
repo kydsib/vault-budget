@@ -46,7 +46,7 @@ const IncomeAndExpenseLog = () => {
 	return (
 		<table className="output-table">
 			<TableHeader />
-			<DailyBudgetTableHeader />
+			{/* <DailyBudgetTableHeader /> */}
 			<tbody className="data-log">
 				{Object.entries(sortedByDay).map(([date, items], key) => [
 					<DailyBudget date={date} key={key} />,

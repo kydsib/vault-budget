@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import CstomButton from '../../components/custom-button/custom-button'
 import {
 	editExpEntry,
 	deleteExpense,
@@ -14,8 +15,9 @@ import {
 	incEditChangesBudget,
 	expEditChangesBudget
 } from '../../redux/budget/budget.actions'
-
 import BudgetCategories from '../../components/budget-categories/budget-categories'
+
+import './edit-page.styles.scss'
 
 const EditPage = ({ match }) => {
 	const dispatch = useDispatch()
@@ -93,10 +95,10 @@ const EditPage = ({ match }) => {
 	}
 
 	return (
-		<div key={item.id}>
+		<div key={item.id} className="eidt-page">
 			<div className="edit-box">
-				<div>
-					<span>Date</span>
+				<div className="edit-pair">
+					<label>Date</label>
 					<input
 						name="time"
 						className="edit"
@@ -104,8 +106,8 @@ const EditPage = ({ match }) => {
 						value={currentData.time}
 					/>
 				</div>
-				<div>
-					<span>Amount</span>
+				<div className="edit-pair">
+					<label>Amount</label>
 					<input
 						name="amount"
 						className="edit"
@@ -113,8 +115,8 @@ const EditPage = ({ match }) => {
 						value={currentData.amount}
 					/>
 				</div>
-				<div>
-					<span>Category</span>
+				<div className="edit-pair">
+					<label>Category</label>
 					{/* // reikes sussitvarkyti kaip perduodu values? */}
 					<BudgetCategories
 						name="category"
@@ -122,8 +124,8 @@ const EditPage = ({ match }) => {
 						handleChange={handleEdits}
 					/>
 				</div>
-				<div>
-					<span>Description</span>
+				<div className="edit-pair">
+					<label>Description</label>
 					<input
 						name="description"
 						className="edit"
@@ -132,8 +134,8 @@ const EditPage = ({ match }) => {
 					/>
 				</div>
 				{currentData.category === 'income' ? (
-					<div>
-						<span>Time Spent</span>
+					<div className="edit-pair">
+						<label>Time Spent</label>
 						<input
 							name="timeSpent"
 							className="edit"
@@ -145,22 +147,20 @@ const EditPage = ({ match }) => {
 			</div>
 			<div className="finalize-edits">
 				<Link to="/budget">
-					<button
+					<CstomButton
 						onClick={() =>
 							currentData.category === 'income'
 								? dispatch(editIncomeActions(currentData))
 								: dispatch(editExpActions(currentData))
 						}
 					>
-						Save Changes
-					</button>
+						Save
+					</CstomButton>
 				</Link>
 
 				<Link to="/budget">
-					<button>Discard Changes</button>
-				</Link>
-				<Link to="/budget">
-					<button
+					<CstomButton
+						className="custom-button custom-button--delete"
 						onClick={() =>
 							currentData.category === 'income'
 								? dispatch(deleteIncomeActions(currentData))
@@ -172,8 +172,8 @@ const EditPage = ({ match }) => {
 								  )
 						}
 					>
-						Delete item
-					</button>
+						Delete
+					</CstomButton>
 				</Link>
 			</div>
 		</div>

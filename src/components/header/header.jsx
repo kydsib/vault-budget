@@ -11,10 +11,18 @@ const Header = () => {
 			<NavLink className="logo-container" to="/budget">
 				<Logo className="logo" />
 			</NavLink>
-			<NavLink className="option" to="/budget-planning">
-				Expense Planning
+			<NavLink
+				className="option"
+				activeClassName="option--active"
+				to="/budget-planning"
+			>
+				Budgeting
 			</NavLink>
-			<NavLink className="option" to="/budget-savings">
+			<NavLink
+				activeClassName="option--active"
+				className="option"
+				to="/budget-savings"
+			>
 				Savings
 			</NavLink>
 		</div>

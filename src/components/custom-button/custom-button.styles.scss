@@ -1,3 +1,35 @@
-.btn {
-	padding: 0px 20px;
+@import '../../index.scss';
+
+.custom-button {
+	display: flex;
+	justify-content: center;
+	// min-width: 16.5rem;
+	width: auto;
+	height: 5rem;
+	letter-spacing: 2px;
+	line-height: 5rem;
+	padding: 0 3rem 0 3rem;
+	font-size: 1.6rem;
+	background-color: $color-secondary;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Open Sans Condensed';
+	font-weight: bolder;
+	border: none;
+	cursor: pointer;
+
+	&:hover {
+		background-color: white;
+		color: $color-secondary;
+		border: 1px solid $color-secondary;
+	}
+
+	&--delete {
+		background-color: $color-expense;
+
+		&:hover {
+			color: $color-expense;
+			border: 1px solid $color-expense;
+		}
+	}
 }

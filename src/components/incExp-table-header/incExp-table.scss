@@ -1,11 +1,16 @@
+@import '../../index.scss';
+
+.table-container {
+	background-color: $color-grey-light;
+}
 .value {
 	margin: 0 auto;
 
 	&.green {
-		color: green;
+		color: $color-secondary;
 	}
 
 	&.red {
-		color: salmon;
+		color: $color-expense;
 	}
 }

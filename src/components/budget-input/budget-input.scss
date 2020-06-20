@@ -1,14 +1,13 @@
 .input-container {
-	display: flex;
-	margin: 0 auto;
-	height: 50px;
-	width: 80%;
+	box-sizing: border-box;
+	width: 100%;
 	padding: 10px;
-	font-size: inherit;
-	border: 1px solid rgb(156, 154, 154);
-
-	&.input-item {
-		flex: 2;
-		margin-right: 10px;
-	}
+	margin-bottom: 15px;
+	background-color: #130a1014;
 }
+
+// .input-btn {
+// 	height: 40px;
+// 	width: 100px;
+// 	padding: 10px 20px;
+// }

@@ -19,6 +19,7 @@ const CategoryItem = ({
 	categoryName,
 	editActive,
 	valueEditable
+	// handleAlert
 }) => {
 	const dispatch = useDispatch()
 	const progressInPercent = (
@@ -42,7 +43,7 @@ const CategoryItem = ({
 	return (
 		<div className="category-item">
 			<div className="category-item__top">
-				<span>{categoryName} </span>
+				<span className="category-name">{categoryName} </span>
 				{valueEditable === true ? (
 					<span>{categoryBudget}</span>
 				) : (
