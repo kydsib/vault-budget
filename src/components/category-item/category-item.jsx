@@ -18,8 +18,13 @@ const CategoryItem = ({
 	categoryExpense,
 	categoryName,
 	editActive,
-	valueEditable
-	// handleAlert
+	valueEditable,
+	// handlePrepareToDelete,
+	readyToDelete,
+	handleAlert,
+	getData,
+	trigerDelete
+	// handleDelete
 }) => {
 	const dispatch = useDispatch()
 	const progressInPercent = (
@@ -38,6 +43,12 @@ const CategoryItem = ({
 			...editedBudgetValue,
 			[name]: value
 		})
+	}
+
+	const deleteWasClickedOn = {
+		id: categoryName,
+		budgetAmount: categoryBudget,
+		currentExp: categoryExpense
 	}
 
 	return (
@@ -64,15 +75,11 @@ const CategoryItem = ({
 				<div className="active-buttons">
 					<EditButon onClick={editActive} />
 					<TrashCan
-						onClick={() =>
-							dispatch(
-								deleteCategoryBudget({
-									budgetAmount: categoryBudget,
-									currentExp: categoryExpense,
-									id: categoryName
-								})
-							)
-						}
+						onClick={() => (
+							getData(deleteWasClickedOn),
+							handleAlert(),
+							trigerDelete()
+						)}
 					/>
 					<SaveIcon
 						// Make edit Field inactive after save

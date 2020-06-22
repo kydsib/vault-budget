@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setCategoryBudget } from '../../redux/expenses/expenses.actions'
+import {
+	setCategoryBudget,
+	deleteCategoryBudget
+} from '../../redux/expenses/expenses.actions'
 
 import CategoryItem from '../category-item/category-item'
 import CustomButton from '../custom-button/custom-button'
@@ -88,24 +91,55 @@ const MonthlyBudgetsList = () => {
 		})
 	}
 
+	const getItemDataToDelete = data => {
+		setItemToDelete({
+			...itemToDelete,
+			id: data.id,
+			budgetAmount: data.budgetAmount,
+			currentExp: data.currentExp
+		})
+	}
+
 	const [alertBox, setAlertBox] = useState({
 		dispalay: false
 	})
 
-	const handleAlert = e => {
-		e.preventDefault()
-
+	const handleAlert = () => {
 		setAlertBox({
 			...alertBox,
-			dispaly: !alertBox.dispalay
+			dispalay: !alertBox.dispalay
 		})
 	}
+
+	const [itemDeleted, setItemDeleted] = useState({
+		deleted: false
+	})
+
+	const handleDelete = () => {
+		itemDeleted.deleted === true
+			? dispatch(deleteCategoryBudget(itemToDelete))
+			: console.log('no item to delete')
+	}
+
+	const tigerDelete = () => {
+		setItemDeleted({
+			...itemDeleted,
+			deleted: !itemDeleted.deleted
+		})
+	}
+
+	const [itemToDelete, setItemToDelete] = useState({
+		id: '',
+		budgetAmount: '',
+		currentExp: ''
+	})
 
 	return (
 		<div>
 			<AlertBox
 				handleAlert={handleAlert}
-				// handleDelete={}
+				handleDelete={handleDelete}
+				resetItemDeleteValue={tigerDelete}
 				alertBox={alertBox.dispalay}
 			/>
 			<form onSubmit={handleSubmit}>
@@ -150,6 +184,12 @@ const MonthlyBudgetsList = () => {
 						valueEditable={editCategory.active}
 						editBudget={handleChange}
 						handleAlert={handleAlert}
+						// handlePrepareToDelete={handlePrepareToDelete}
+						readyToDelete={itemDeleted.deleted}
+						getData={getItemDataToDelete}
+						trigerDelete={tigerDelete}
+						// getReadyToDelete={handleDelete}
+						// handleDelete={handleDelete}
 					/>
 				))}
 

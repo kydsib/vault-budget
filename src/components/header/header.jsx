@@ -16,7 +16,7 @@ const Header = () => {
 				activeClassName="option--active"
 				to="/budget-planning"
 			>
-				Budgeting
+				Budget
 			</NavLink>
 			<NavLink
 				activeClassName="option--active"

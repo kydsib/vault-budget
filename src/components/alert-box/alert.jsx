@@ -1,17 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import CustomButton from '../custom-button/custom-button'
 
 import './alert.styles.scss'
 
-const AlertBox = ({ handleAlert, alertBox }) => {
+const AlertBox = ({
+	handleAlert,
+	handleDelete,
+	resetItemDeleteValue,
+	alertBox
+}) => {
+	// console.log(alertBox)
 	return (
 		<div>
-			{alertBox.dispalay === true ? (
+			{alertBox === true ? (
 				<div className="alert-container">
-					<span className="alert-container__txt">Are you sure?</span>
+					<span className="alert-container__txt">
+						Delete this budget?
+					</span>
 					<div className="alert-container__buttons">
-						<CustomButton>si claro</CustomButton>
+						<CustomButton
+							onClick={() => (
+								handleDelete(),
+								handleAlert(),
+								resetItemDeleteValue()
+							)}
+						>
+							si claro
+						</CustomButton>
 						<CustomButton
 							onClick={handleAlert}
 							className="custom-button custom-button--delete"
