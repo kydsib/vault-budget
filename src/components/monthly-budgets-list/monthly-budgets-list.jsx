@@ -184,16 +184,15 @@ const MonthlyBudgetsList = () => {
 						valueEditable={editCategory.active}
 						editBudget={handleChange}
 						handleAlert={handleAlert}
-						// handlePrepareToDelete={handlePrepareToDelete}
 						readyToDelete={itemDeleted.deleted}
 						getData={getItemDataToDelete}
 						trigerDelete={tigerDelete}
-						// getReadyToDelete={handleDelete}
-						// handleDelete={handleDelete}
 					/>
 				))}
 
-				<AddItemButton onClick={handleAddButton} />
+				<CustomButton onClick={handleAddButton}>
+					Add new budget
+				</CustomButton>
 			</form>
 		</div>
 	)
